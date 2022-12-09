@@ -18,14 +18,18 @@ async fn main() -> Result<(), Box<dyn Error>> {
 
     match opt {
         KustomerOrgData { org_name } => {
-            let org = get_org_domain_data(&org_name).await?;
+            let domain = get_org_domain_data(&org_name).await;
 
-            // TODO: Implement
-            get_full_org_data(&org).await?;
-            
-            
-            let org_id = org.data.id.clone();
-            println!("{:#?} has org id - {org_id}", org);
+            match domain {
+                Ok(org_domain_data) => {
+                    let org_id = org_domain_data.data.id.clone();
+                    println!("{:#?} has org id - {org_id}", org_domain_data);
+                    
+                    // TODO: Implement
+                    get_full_org_data(&org_domain_data).await?;
+                }
+                Err(_e) => println!("having trouble fetching Kustomer org data for org {}", org_name)
+            }
         }
     }
 
