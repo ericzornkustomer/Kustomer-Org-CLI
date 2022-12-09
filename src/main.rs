@@ -2,8 +2,7 @@ use std::error::Error;
 use structopt::StructOpt;
 use colored::Colorize;
 
-use kustomer_org::get_org_domain_data;
-// use kustomer_org::get_full_org_data;
+use kustomer_org::{get_org_domain_data, get_full_org_data, print_org_domain_response};
 
 #[derive(Debug, StructOpt)]
 #[structopt(name = "kustomer-org", about = "Kustomer Org Data Getter")]
@@ -26,13 +25,9 @@ async fn main() -> Result<(), Box<dyn Error>> {
 
             match domain {
                 Ok(org_domain_data) => {
-                    let id = org_domain_data.data.id;
-
-                    let success_message = format!("{} has org id - {}", org_name_upper, id).green();
-                    println!("{success_message}");
-                    
-                    // TODO: Implement later for more rich 
-                    // get_full_org_data(&org_domain_data).await?;
+                    // Output data for org
+                    print_org_domain_response(&org_domain_data);
+                    get_full_org_data(&org_domain_data).await?;
                 }
                 Err(_e) => {
                     let error_message = format!("Having trouble fetching Kustomer org data for org {}", org_name_upper).red();
