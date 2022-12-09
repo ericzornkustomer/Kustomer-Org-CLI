@@ -8,7 +8,8 @@ use kustomer_org::get_org_domain_data;
 #[derive(Debug, StructOpt)]
 #[structopt(name = "kustomer-org", about = "Kustomer Org Data Getter")]
 pub struct KustomerOrgData {
-    /// Obtains the org name within prod1 and prod2 environments
+    /// Obtains the org data within prod1 and prod2 environments by the
+    /// corresponding org name.
     #[structopt(short, long)]
     org_name: String,
 }
