@@ -1,0 +1,1 @@
+pub static KUSTOMER_API: &'static str = "https://api.kustomerapp.com";

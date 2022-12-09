@@ -1,3 +1,4 @@
-pub fn get_org_data(parsed_org_name: &String) {
-    println!("printing the org name {}", parsed_org_name);
-}
+mod api;
+mod models;
+
+pub use crate::api::org_domain::get_org_domain_data;

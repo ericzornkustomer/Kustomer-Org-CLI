@@ -1,4 +1,6 @@
-use kustomer_org::get_org_data;
+use std::error::Error;
+
+use kustomer_org::get_org_domain_data;
 use structopt::StructOpt;
 
 #[derive(Debug, StructOpt)]
@@ -10,12 +12,15 @@ pub struct KustomerOrgData {
 }
 
 #[tokio::main]
-async fn main() {
+async fn main() -> Result<(), Box<dyn Error>> {
     let opt = KustomerOrgData::from_args();
 
     match opt {
         KustomerOrgData { org_name } => {
-            get_org_data(&org_name);
+            let org = get_org_domain_data(&org_name).await?;
+            println!("{:?}", org);
         }
     }
+
+    Ok(())
 }
