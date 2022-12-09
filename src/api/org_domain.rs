@@ -1,4 +1,6 @@
+use std::env;
 use std::error::Error;
+use std::process::exit;
 
 use reqwest::Client;
 
@@ -24,6 +26,15 @@ pub async fn get_org_domain_data(org_name: &String) -> Result<OrgDomainResponse,
 }
 
 pub async fn get_full_org_data(org_domain_data: &OrgDomainResponse) -> Result<(), Box<dyn Error>> {
-    println!("recieved");
+    let kustomer_api_key = env::var("KUSTOMER_API_KEY");
+
+    match kustomer_api_key {
+        Ok(key) => println!("{} - key", key),
+        Err(_e) => {
+            println!("You must have KUSTOMER_API_KEY set in your environment vars");
+            exit(1)
+        }
+    }
+
     Ok(())
 }
