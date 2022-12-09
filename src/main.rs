@@ -1,6 +1,7 @@
 use std::error::Error;
 
 use kustomer_org::get_org_domain_data;
+use kustomer_org::get_full_org_data;
 use structopt::StructOpt;
 
 #[derive(Debug, StructOpt)]
@@ -18,6 +19,11 @@ async fn main() -> Result<(), Box<dyn Error>> {
     match opt {
         KustomerOrgData { org_name } => {
             let org = get_org_domain_data(&org_name).await?;
+
+            // TODO: Implement
+            get_full_org_data(&org).await?;
+            
+            
             let org_id = org.data.id.clone();
             println!("{:#?} has org id - {org_id}", org);
         }

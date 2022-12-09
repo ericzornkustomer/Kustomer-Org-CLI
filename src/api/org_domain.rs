@@ -22,3 +22,8 @@ pub async fn get_org_domain_data(org_name: &String) -> Result<OrgDomainResponse,
 
     Ok(resp)
 }
+
+pub async fn get_full_org_data(org_domain_data: &OrgDomainResponse) -> Result<(), Box<dyn Error>> {
+    println!("recieved");
+    Ok(())
+}
