@@ -5,74 +5,74 @@ extern crate serde_json;
 #[derive(Serialize, Deserialize, Debug)]
 pub struct OrgDomainResponse {
     #[serde(rename = "data")]
-    data: OrgDomainData,
+    pub data: OrgDomainData,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct OrgDomainData {
     #[serde(rename = "type")]
-    data_type: String,
+    pub data_type: String,
 
     #[serde(rename = "id")]
-    id: String,
+    pub id: String,
 
     #[serde(rename = "attributes")]
-    attributes: Attributes,
+    pub attributes: Attributes,
 
     #[serde(rename = "links")]
-    links: Links,
+    pub links: Links,
 
     #[serde(rename = "relationships")]
-    relationships: Relationships,
+    pub relationships: Relationships,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Attributes {
     #[serde(rename = "name")]
-    name: String,
+    pub name: String,
 
     #[serde(rename = "orgId")]
-    org_id: String,
+    pub org_id: String,
 
     #[serde(rename = "reservation")]
-    reservation: bool,
+    pub reservation: bool,
 
     #[serde(rename = "updatedAt")]
-    updated_at: String,
+    pub updated_at: String,
 
     #[serde(rename = "createdAt")]
-    created_at: String,
+    pub created_at: String,
 
     #[serde(rename = "pod")]
-    pod: String,
+    pub pod: String,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Links {
     #[serde(rename = "self")]
-    links_self: String,
+    pub links_self: String,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Relationships {
     #[serde(rename = "org")]
-    org: Org,
+    pub org: Org,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Org {
     #[serde(rename = "links")]
-    links: Links,
+    pub links: Links,
 
     #[serde(rename = "data")]
-    data: OrgData,
+    pub data: OrgData,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct OrgData {
     #[serde(rename = "type")]
-    data_type: String,
+    pub data_type: String,
 
     #[serde(rename = "id")]
-    id: String,
+    pub id: String,
 }

@@ -18,7 +18,8 @@ async fn main() -> Result<(), Box<dyn Error>> {
     match opt {
         KustomerOrgData { org_name } => {
             let org = get_org_domain_data(&org_name).await?;
-            println!("{:?}", org);
+            let org_id = org.data.id.clone();
+            println!("{:#?} has org id - {org_id}", org);
         }
     }
 
