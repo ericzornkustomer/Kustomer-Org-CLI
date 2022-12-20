@@ -17,7 +17,16 @@ pub struct KustomerOrgData {
 async fn main() -> Result<(), Box<dyn Error>> {
     let opt = KustomerOrgData::parse();
 
-    match opt {
+    // Run the CLI
+    run(&opt).await?;
+   
+
+    Ok(())
+}
+
+
+async fn run(org_data: &KustomerOrgData) -> Result<(), Box<dyn Error>> {
+    match org_data {
         KustomerOrgData { org_name } => {
             let org_name_lower = org_name.to_lowercase();
             let org_name_upper = org_name.to_uppercase();
@@ -34,8 +43,8 @@ async fn main() -> Result<(), Box<dyn Error>> {
                     println!("{error_message}");
                 }
             }
+            
+            Ok(())
         }
     }
-
-    Ok(())
 }
