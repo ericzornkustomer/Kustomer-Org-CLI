@@ -1,21 +1,21 @@
 use std::error::Error;
-use structopt::StructOpt;
+use clap::Parser;
 use colored::Colorize;
 
 use kustomer_org::{get_org_domain_data, get_full_org_data, print_org_domain_response};
 
-#[derive(Debug, StructOpt)]
-#[structopt(name = "kustomer-org", about = "Kustomer Org Data Getter")]
+#[derive(Debug, Parser)]
+#[command(name = "kustomer-org", about = "Kustomer Org Data Getter")]
 pub struct KustomerOrgData {
     /// Obtains the org data within prod1 and prod2 environments by the
     /// corresponding org name.
-    #[structopt(short, long)]
+    #[arg(short, long)]
     org_name: String,
 }
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn Error>> {
-    let opt = KustomerOrgData::from_args();
+    let opt = KustomerOrgData::parse();
 
     match opt {
         KustomerOrgData { org_name } => {
