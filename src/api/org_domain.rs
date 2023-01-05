@@ -26,9 +26,9 @@ pub async fn get_org_domain_data(org_name: &String) -> Result<OrgDomainResponse,
 
 /// TODO: Implement an API call to the Kustomer API by their Org ID. This data
 /// will include a more detailed org output and will require an API key for production. 
-pub async fn get_full_org_data(_org_domain_data: &OrgDomainResponse) -> Result<(), Box<dyn Error>> {
-    // let kustomer_api_key = env::var("KUSTOMER_API_KEY")
-    print!("");
+pub async fn get_full_org_data(org_id: &String, api_key: &String) -> Result<(), Box<dyn Error>> {
+    println!("{} is the ID and {} is the key", org_id, api_key);
+
 
     Ok(())
 }
