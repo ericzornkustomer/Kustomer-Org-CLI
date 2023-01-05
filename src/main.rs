@@ -54,10 +54,10 @@ async fn run(org_data: &KustomerOrgData) -> Result<(), Box<dyn Error>> {
         KustomerOrgData { org_data_action } => {
             match org_data_action {
                 OrgDataAction::DataByOrgName { name } => {
-                    parse_by_org_name(name).await?
+                    parse_by_org_name(name.to_owned()).await?
                 },
                 OrgDataAction::DataByOrgId { id, api_key } => {
-                    parse_by_org_id(id, api_key).await?
+                    parse_by_org_id(id.to_owned(), api_key.to_owned()).await?
                 }
             }
             Ok(())
@@ -65,7 +65,7 @@ async fn run(org_data: &KustomerOrgData) -> Result<(), Box<dyn Error>> {
     }
 }
 
-async fn parse_by_org_name(org_name: &String) -> Result<(), Box<dyn Error>> {
+async fn parse_by_org_name(org_name: String) -> Result<(), Box<dyn Error>> {
     let org_name_lower = org_name.to_lowercase();
     let org_name_upper = org_name.to_uppercase();
     let domain = get_org_domain_data(&org_name_lower).await;
@@ -84,7 +84,7 @@ async fn parse_by_org_name(org_name: &String) -> Result<(), Box<dyn Error>> {
     Ok(())
 }
 
-async fn parse_by_org_id(id: &String, api_key: &Option<String>) -> Result<(), Box<dyn Error>> {
+async fn parse_by_org_id(id: String, api_key: Option<String>) -> Result<(), Box<dyn Error>> {
     let finalized_api_key = api_key.clone().unwrap_or_else(|| {
         let key_from_env = env::var(KUSTOMER_API_KEY);
 
@@ -102,7 +102,7 @@ async fn parse_by_org_id(id: &String, api_key: &Option<String>) -> Result<(), Bo
     }
 
     // Make Request for Org Data
-    get_full_org_data(id, &finalized_api_key).await?;
+    get_full_org_data(&id, &finalized_api_key).await?;
 
     Ok(())
 }
