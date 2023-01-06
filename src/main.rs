@@ -2,7 +2,7 @@ use std::{error::Error, env};
 use clap::{Parser, Subcommand};
 use colored::Colorize;
 
-use kustomer_org::{get_org_domain_data, get_full_org_data, print_org_domain_response};
+use kustomer_org::{get_org_domain_data, get_org_data_by_id, print_org_domain_response};
 
 static KUSTOMER_API_KEY: &'static str = "KUSTOMER_API_KEY";
 
@@ -65,6 +65,7 @@ async fn run(org_data: &KustomerOrgData) -> Result<(), Box<dyn Error>> {
     }
 }
 
+/// Parses data by org name passed into the CLI
 async fn parse_by_org_name(org_name: String) -> Result<(), Box<dyn Error>> {
     let org_name_lower = org_name.to_lowercase();
     let org_name_upper = org_name.to_uppercase();
@@ -84,6 +85,7 @@ async fn parse_by_org_name(org_name: String) -> Result<(), Box<dyn Error>> {
     Ok(())
 }
 
+/// Parses data by org ID and Kustomer API Key passed into the CLI
 async fn parse_by_org_id(id: String, api_key: Option<String>) -> Result<(), Box<dyn Error>> {
     let finalized_api_key = api_key.clone().unwrap_or_else(|| {
         let key_from_env = env::var(KUSTOMER_API_KEY);
@@ -96,13 +98,24 @@ async fn parse_by_org_id(id: String, api_key: Option<String>) -> Result<(), Box<
 
     // Handle the error case when there are no API keys specified
     if finalized_api_key.is_empty() {
-        let error_message = format!("You must have an environment variable with the name KUSTOMER_API_KEY set or pass an API Key via the flag").red();
+        let error_message = format!("You must have an environment variable with the name KUSTOMER_API_KEY set or pass an API Key via the --api-key CLI flag").red();
         println!("{error_message}");
         return Ok(())
     }
 
     // Make Request for Org Data
-    get_full_org_data(&id, &finalized_api_key).await?;
+    let res = get_org_data_by_id(&id, &finalized_api_key).await;
+
+    match res {
+        Ok(org_data_response) =>  {
+            // Output data for org
+            print_org_domain_response(&org_data_response);
+        },
+        Err(_e) => {
+            let error_message = format!("Having trouble fetching Kustomer org data for org {}", id).red();
+            println!("{error_message}");
+        }
+    }
 
     Ok(())
 }
