@@ -12,7 +12,6 @@ pub async fn get_org_data_by_id(org_id: &String, api_key: &String) -> Result<Sha
     let org_data_request = OrgDataRequest::new(org_id.clone(), api_key.clone());
     let url = org_data_request.generate_url(KUSTOMER_API);
 
-    
     let org_data_resp = client.get(&url)
     .bearer_auth(org_data_request.api_key)
     .send()
